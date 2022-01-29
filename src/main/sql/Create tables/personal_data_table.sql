@@ -7,7 +7,7 @@ Create Table Personal_data
     email varchar(50) not null,
     FOREIGN KEY(id)
         REFERENCES Users(id),
-    Constraint phone_number Check (phone_number >= 100000000 && phone_number <= 999999999)
+    Constraint phone_number Check (LENGTH(phone_number)=9)
 
 );
 

@@ -6,9 +6,9 @@ CREATE TABLE Users
         user_password varchar(30) not null,
         type enum('admin', 'customer', 'seller') not null,
         PRIMARY KEY (id),
-        Constraint nickname  Check (nickname > 3),
-        Constraint login Check (login > 3),
-        Constraint user_password Check (user_password > 5)
+        Constraint nickname  Check (LENGTH(nickname) > 3),
+        Constraint login Check (LENGTH(login) > 3),
+        Constraint user_password Check (LENGTH(user_password) > 5)
     );
 
 DROP Table Users;
