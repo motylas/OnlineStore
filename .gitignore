@@ -1,0 +1,15 @@
+/.idea/vcs.xml
+/pom.xml
+/OnlineStore.iml
+/src/main/java/mysql-connector-java-8.0.28.jar
+/.idea/modules.xml
+/.idea/misc.xml
+/.idea/libraries/Maven__mysql_mysql_connector_java_8_0_28.xml
+/.idea/libraries/Maven__com_google_protobuf_protobuf_java_3_11_4.xml
+/.idea/compiler.xml
+/.idea/jarRepositories.xml
+/.idea/checkstyle-idea.xml
+/.idea/.gitignore
+/target/classes/App.class
+/.idea/sqldialects.xml
+/.idea/dataSources.xml
