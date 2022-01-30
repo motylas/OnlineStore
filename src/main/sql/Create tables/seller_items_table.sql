@@ -3,7 +3,7 @@ Create table Seller_items
     product_id int unsigned not null,
     seller_id int unsigned not null,
     quantity int unsigned not null,
-    price int unsigned not null,
+    price float unsigned not null,
     PRIMARY KEY (product_id, seller_id),
     FOREIGN KEY(product_id)
         References Products(id),

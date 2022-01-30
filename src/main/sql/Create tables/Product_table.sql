@@ -6,7 +6,7 @@ Create table Products
     PRIMARY KEY(id),
     FOREIGN KEY(country_id)
         REFERENCES Country(id),
-    Constraint Product_name Check (name > 3)
+    Constraint Product_name Check (LENGTH(name) > 3)
 
 );
 
