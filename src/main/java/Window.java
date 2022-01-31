@@ -10,21 +10,27 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class Window extends JFrame implements ActionListener {
-//  private final Menu menu3;
-//
-//  private final MenuItem i7;
+
   private int screenIndex = 0;
 
 
+  /**
+   * Main Panels
+   */
   JPanel topPanel = new JPanel();
   JPanel bottomPanel = new JPanel();
 
+
+  /**
+   * Start Screen
+   */
   JButton loginButton = new JButton("Login");
-
   JButton registerButton = new JButton("Register");
-
   JSplitPane splitPane1 = new  JSplitPane();
 
+  /**
+   * Created Panels/Screens
+   */
   JPanel StartScreen = new JPanel();
   JPanel loginScreen = new JPanel();
   JPanel registerScreen = new JPanel();
@@ -36,6 +42,9 @@ public class Window extends JFrame implements ActionListener {
   JPanel showPersonalDataPA = new JPanel();
 
 
+  /**
+   * Created Buttons
+   */
   JButton registerNowButton = new JButton("Register Now");
   JButton logInButton = new JButton("Log In");
   JButton banOptionButton = new JButton("Ban User");
@@ -44,6 +53,9 @@ public class Window extends JFrame implements ActionListener {
   JButton showPersonalData = new JButton("Show Personal data");
   JButton showProducts = new JButton("Show Products");
 
+  /**
+   * Register Screen
+   */
   JTextField usernameField = new JTextField();
   JTextField loginField = new JTextField();
   JPasswordField passwordField = new JPasswordField();
@@ -61,10 +73,7 @@ public class Window extends JFrame implements ActionListener {
   JLabel phoneL = new JLabel("Phone");
   JLabel emailL = new JLabel("Email");
   JLabel typeL = new JLabel("Type");
-
-  JLabel usernameLL = new JLabel("Username");
-  JLabel loginLL = new JLabel("Login");
-  JLabel passwordLL = new JLabel("Password");
+  JLabel registerError = new JLabel("User with this username already exist.");
 
   JPanel usernameP = new JPanel();
   JPanel loginP = new JPanel();
@@ -75,24 +84,27 @@ public class Window extends JFrame implements ActionListener {
   JPanel emailP = new JPanel();
   JPanel typeP = new JPanel();
 
-  JPanel usernamePP = new JPanel();
+  /**
+   * Login Screen
+   */
+
+  JLabel loginLL = new JLabel("Login");
+  JLabel passwordLL = new JLabel("Password");
+  JLabel loginError = new JLabel("User with this login doesn't exist.");
+
   JPanel loginPP = new JPanel();
   JPanel passwordPP = new JPanel();
+
+  JTextField loginField1 = new JTextField();
+  JPasswordField passwordField1 = new JPasswordField();
+
+  /**
+   * Created Admin Screen
+   */
 
   JPanel usernamePPP = new JPanel();
   JPanel loginPPP = new JPanel();
   JPanel passwordPPP = new JPanel();
-
-  JPanel banP = new JPanel();
-
-  JTextField usernameField1 = new JTextField();
-  JTextField loginField1 = new JTextField();
-  JPasswordField passwordField1 = new JPasswordField();
-
-  JLabel userToBan = new JLabel("Enter user nickname:");
-  JTextField userToBanT = new JTextField();
-  JButton banButton = new JButton("Ban User");
-
 
   JLabel usernameLLL = new JLabel("Nickname");
   JLabel loginLLL = new JLabel("Login");
@@ -104,20 +116,23 @@ public class Window extends JFrame implements ActionListener {
 
   JButton addAdmin = new JButton("Create Admin");
 
+  /**
+   * Ban Screen
+   */
 
+  JPanel banP = new JPanel();
+
+  JLabel userToBan = new JLabel("Enter user nickname:");
+  JTextField userToBanT = new JTextField();
+  JButton banButton = new JButton("Ban User");
 
   JTable j;
 
 
 
-
-
-
-
-
   private void Prepare() {
-    bottomPanel.setBackground(Color.GREEN);
-    topPanel.setBackground(Color.RED);
+//    bottomPanel.setBackground(Color.GREEN);
+//    topPanel.setBackground(Color.RED);
     type.add("customer");
     type.add("seller");
 
@@ -191,48 +206,40 @@ public class Window extends JFrame implements ActionListener {
     phoneField.setMaximumSize(new Dimension(600,50));
     emailP.add(emailField);
     emailField.setMaximumSize(new Dimension(600,50));
-//    typeP.add(typeField);
-//    typeField.setMaximumSize(new Dimension(600,50));
     typeP.add(type);
     type.setMaximumSize(new Dimension(600,50));
 
     registerScreen.add(registerNowButton);
     registerNowButton.setMaximumSize(new Dimension(150,50));
+    registerScreen.add(registerError);
 
     /**
      * Login screen
      */
 
     loginScreen.setLayout(new BoxLayout(loginScreen, BoxLayout.Y_AXIS));
-    loginScreen.add(usernamePP);
     loginScreen.add(loginPP);
     loginScreen.add(passwordPP);
     loginScreen.add(logInButton);
 
-    usernamePP.setLayout(new BoxLayout(usernamePP, BoxLayout.X_AXIS));
     loginPP.setLayout(new BoxLayout(loginPP, BoxLayout.X_AXIS));
     passwordPP.setLayout(new BoxLayout(passwordPP, BoxLayout.X_AXIS));
 
-    usernamePP.add(usernameLL);
-    usernameLL.setMaximumSize(new Dimension(200,50));
     loginPP.add(loginLL);
     loginLL.setMaximumSize(new Dimension(200,50));
     passwordPP.add(passwordLL);
     passwordLL.setMaximumSize(new Dimension(200,50));
 
-    usernamePP.add(usernameField1);
-    usernameField1.setMaximumSize(new Dimension(600,50));
     loginPP.add(loginField1);
     loginField1.setMaximumSize(new Dimension(600,50));
     passwordPP.add(passwordField1);
     passwordField1.setMaximumSize(new Dimension(600,50));
+    loginScreen.add(loginError);
 
 
     /**
      * Admin screen
      */
-//    banOptionButton.setBounds(60,100,100,50);
-//    createAdminButton.setBounds(60,200,100,50);
     AdminScreen.setLayout(new BoxLayout(AdminScreen, BoxLayout.Y_AXIS));
 
     AdminScreen.add(banOptionButton);
@@ -309,63 +316,70 @@ public class Window extends JFrame implements ActionListener {
 //        { "Anand Jha", "6014", "IT" , "1","asd"}
 //    };
 
-    ArrayList<ArrayList<String>> listaProduktow = new ArrayList();
-    ArrayList<String> columnNames = listaProduktow.remove(0);
+
+
+//    ArrayList<ArrayList<String>> listaProduktow = new ArrayList();
+//    ArrayList<String> columnNames = listaProduktow.remove(0);
+//
+//
+//
+//    String[][] stringArray = listaProduktow.stream().map(u -> u.toArray(new String[0])).toArray(String[][]::new);
+//
+//    String[] columns = columnNames.toArray(String[]::new);
+//    j = new JTable(stringArray, columns);
+//
+//    DefaultTableModel tableModel = new DefaultTableModel(stringArray,columns) {
+//
+//      @Override
+//      public boolean isCellEditable(int row, int column) {
+//        //all cells false
+//        return false;
+//      }
+//    };
+//    j.setModel(tableModel);
+//    j.setBounds(30, 40, 200, 10);
+//    JScrollPane sp = new JScrollPane(j);
+//    showUsersPA.add(sp);
 
 
 
-    String[][] stringArray = listaProduktow.stream().map(u -> u.toArray(new String[0])).toArray(String[][]::new);
 
-    String[] columns = columnNames.toArray(String[]::new);
-    j = new JTable(stringArray, columns);
-
-    DefaultTableModel tableModel = new DefaultTableModel(stringArray,columns) {
-
-      @Override
-      public boolean isCellEditable(int row, int column) {
-        //all cells false
-        return false;
-      }
-    };
-    j.setModel(tableModel);
-    j.setBounds(30, 40, 200, 10);
-    JScrollPane sp = new JScrollPane(j);
-    showUsersPA.add(sp);
-
-    splitPane1.setBottomComponent(showUsersPA);
-    splitPane1.setTopComponent(AdminScreen);
+    splitPane1.setBottomComponent(loginScreen);
+    splitPane1.setTopComponent(StartScreen);
 
 
 
   }
 
-  private void screens(){
-//    remove(surface);
-    if(screenIndex == 0){
-      splitPane1.setBottomComponent(loginScreen);
-      System.out.println("1");
-    }
-    else if(screenIndex == 1){
-      splitPane1.setBottomComponent(registerScreen);
-      System.out.println("2");
-    }
-  }
+//  private void screens(){
+//
+//    if(screenIndex == 0){
+//      splitPane1.setBottomComponent(loginScreen);
+//      System.out.println("1");
+//    }
+//    else if(screenIndex == 1){
+//      splitPane1.setBottomComponent(registerScreen);
+//      System.out.println("2");
+//    }
+//    else if(screenIndex == 2){
+//      splitPane1.setBottomComponent(createAdminScreen);
+//    }
+//    else if(screenIndex == 3){
+//      splitPane1.setBottomComponent(banScreen);
+//    }
+//  }
 
   private void Surface() {
     Prepare();
 
     loginButton.addActionListener(e -> {
-      screenIndex = 0;
-      System.out.println("Hi");
-      screens();
+      splitPane1.setBottomComponent(loginScreen);
       setBounds(100, 0, 1279, 960);
       setBounds(100, 0, 1280, 960);
     });
 
     registerButton.addActionListener(e -> {
-      screenIndex = 1;
-      System.out.println("Hi");
-      screens();
+      splitPane1.setBottomComponent(registerScreen);
     });
 
     logInButton.addActionListener(e ->{
@@ -373,10 +387,12 @@ public class Window extends JFrame implements ActionListener {
       String pass = String.valueOf(passwordField1.getPassword());
       try {
         App.login(login,pass);
+        splitPane1.setTopComponent(AdminScreen);
       } catch (Exception ex) {
         ex.printStackTrace();
       }
     });
+
     registerNowButton.addActionListener(e -> {
       String username = usernameField.getText();
       String login = loginField.getText();
@@ -392,6 +408,16 @@ public class Window extends JFrame implements ActionListener {
             ex.printStackTrace();
         }
     });
+
+    createAdminButton.addActionListener(e -> {
+      splitPane1.setBottomComponent(createAdminScreen);
+    });
+
+    banOptionButton.addActionListener(e -> {
+      splitPane1.setBottomComponent(banScreen);
+    });
+
+
 
 
 
