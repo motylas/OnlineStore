@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 
 public class Window extends JFrame implements ActionListener {
@@ -14,17 +15,7 @@ public class Window extends JFrame implements ActionListener {
 //  private final MenuItem i7;
   private int screenIndex = 0;
 
-  private MenuBar myMenu;
 
-  private JPanel surface;
-
-  JLabel label1 = new JLabel("Twoj kolor");
-
-  JLabel label2 = new JLabel("Aktualny gracz");
-
-  JPanel loginPanel = new JPanel();
-
-  JPanel registerPanel = new JPanel();
   JPanel topPanel = new JPanel();
   JPanel bottomPanel = new JPanel();
 
@@ -40,11 +31,18 @@ public class Window extends JFrame implements ActionListener {
   JPanel AdminScreen = new JPanel();
   JPanel banScreen = new JPanel();
   JPanel createAdminScreen = new JPanel();
+  JPanel showProductsPA = new JPanel();
+  JPanel showUsersPA = new JPanel();
+  JPanel showPersonalDataPA = new JPanel();
+
 
   JButton registerNowButton = new JButton("Register Now");
   JButton logInButton = new JButton("Log In");
   JButton banOptionButton = new JButton("Ban User");
   JButton createAdminButton = new JButton("Add New Admin");
+  JButton showUsers = new JButton("Show Users");
+  JButton showPersonalData = new JButton("Show Personal data");
+  JButton showProducts = new JButton("Show Products");
 
   JTextField usernameField = new JTextField();
   JTextField loginField = new JTextField();
@@ -108,7 +106,7 @@ public class Window extends JFrame implements ActionListener {
 
 
 
-
+  JTable j;
 
 
 
@@ -239,8 +237,14 @@ public class Window extends JFrame implements ActionListener {
 
     AdminScreen.add(banOptionButton);
     AdminScreen.add(createAdminButton);
+    AdminScreen.add(showUsers);
+    AdminScreen.add(showPersonalData);
+    AdminScreen.add(showProducts);
     banOptionButton.setMaximumSize(new Dimension(200,50));
     createAdminButton.setMaximumSize(new Dimension(200,50));
+    showUsers.setMaximumSize(new Dimension(200,50));
+    showPersonalData.setMaximumSize(new Dimension(200,50));
+    showProducts.setMaximumSize(new Dimension(200,50));
 
     /**
      * ban Panel
@@ -282,10 +286,53 @@ public class Window extends JFrame implements ActionListener {
     passwordPPP.add(passwordField2);
     passwordField2.setMaximumSize(new Dimension(600,50));
 
+    /**
+     * Show Users PA Screen
+     */
+    showUsersPA.setLayout(new BoxLayout(showUsersPA, BoxLayout.Y_AXIS));
+
+//    String[][] data = new String[10][5];
+//    data[0][0] = "a";
+//    data[0][1] = "a";
+//    data[0][2] = "a";
+//    data[0][3] = "a";
+//    data[0][4] = "a";
+
+//     String[][] data = {
+//        { "Kundan Kumar Jha", "4031", "CSE", "1","ads"},
+//        { "Anand Jha", "6014", "IT" , "1","asd"},
+//        { "Kundan Kumar Jha", "4031", "CSE", "1","ads"},
+//        { "Anand Jha", "6014", "IT" , "1","asd"},
+//        { "Kundan Kumar Jha", "4031", "CSE", "1","ads"},
+//        { "Anand Jha", "6014", "IT" , "1","asd"},
+//        { "Kundan Kumar Jha", "4031", "CSE", "1","ads"},
+//        { "Anand Jha", "6014", "IT" , "1","asd"}
+//    };
+
+    ArrayList<ArrayList<String>> listaProduktow = new ArrayList();
+    ArrayList<String> columnNames = listaProduktow.remove(0);
 
 
 
-    splitPane1.setBottomComponent(createAdminScreen);
+    String[][] stringArray = listaProduktow.stream().map(u -> u.toArray(new String[0])).toArray(String[][]::new);
+
+    String[] columns = columnNames.toArray(String[]::new);
+    j = new JTable(stringArray, columns);
+
+    DefaultTableModel tableModel = new DefaultTableModel(stringArray,columns) {
+
+      @Override
+      public boolean isCellEditable(int row, int column) {
+        //all cells false
+        return false;
+      }
+    };
+    j.setModel(tableModel);
+    j.setBounds(30, 40, 200, 10);
+    JScrollPane sp = new JScrollPane(j);
+    showUsersPA.add(sp);
+
+    splitPane1.setBottomComponent(showUsersPA);
     splitPane1.setTopComponent(AdminScreen);
 
 
@@ -346,6 +393,8 @@ public class Window extends JFrame implements ActionListener {
         }
     });
 
+
+
   }
 
   public static void main(String[] var0) {
@@ -357,9 +406,7 @@ public class Window extends JFrame implements ActionListener {
   public Window() {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setTitle("Online-shop");
-    myMenu = new MenuBar();
-//    setLayout(new GridLayout(1, 2));
-    setMenuBar(this.myMenu);
+
     Surface();
 //    add(this.surface);
     setBounds(100, 0, 1280, 960);
