@@ -37,9 +37,14 @@ public class Window extends JFrame implements ActionListener {
   JPanel StartScreen = new JPanel();
   JPanel loginScreen = new JPanel();
   JPanel registerScreen = new JPanel();
+  JPanel AdminScreen = new JPanel();
+  JPanel banScreen = new JPanel();
+  JPanel createAdminScreen = new JPanel();
 
   JButton registerNowButton = new JButton("Register Now");
   JButton logInButton = new JButton("Log In");
+  JButton banOptionButton = new JButton("Ban User");
+  JButton createAdminButton = new JButton("Add New Admin");
 
   JTextField usernameField = new JTextField();
   JTextField loginField = new JTextField();
@@ -48,7 +53,6 @@ public class Window extends JFrame implements ActionListener {
   JTextField lastnameField = new JTextField();
   JTextField phoneField = new JTextField();
   JTextField emailField = new JTextField();
-  JTextField typeField = new JTextField();
   Choice type = new Choice();
 
   JLabel usernameL = new JLabel("Username");
@@ -77,9 +81,35 @@ public class Window extends JFrame implements ActionListener {
   JPanel loginPP = new JPanel();
   JPanel passwordPP = new JPanel();
 
+  JPanel usernamePPP = new JPanel();
+  JPanel loginPPP = new JPanel();
+  JPanel passwordPPP = new JPanel();
+
+  JPanel banP = new JPanel();
+
   JTextField usernameField1 = new JTextField();
   JTextField loginField1 = new JTextField();
   JPasswordField passwordField1 = new JPasswordField();
+
+  JLabel userToBan = new JLabel("Enter user nickname:");
+  JTextField userToBanT = new JTextField();
+  JButton banButton = new JButton("Ban User");
+
+
+  JLabel usernameLLL = new JLabel("Nickname");
+  JLabel loginLLL = new JLabel("Login");
+  JLabel passwordLLL = new JLabel("Password");
+
+  JTextField usernameField2 = new JTextField();
+  JTextField loginField2 = new JTextField();
+  JPasswordField passwordField2 = new JPasswordField();
+
+  JButton addAdmin = new JButton("Create Admin");
+
+
+
+
+
 
 
 
@@ -103,10 +133,15 @@ public class Window extends JFrame implements ActionListener {
     splitPane1.setBottomComponent(bottomPanel);
 
 
+    /**
+     * Start screen
+     */
     StartScreen.add(loginButton);
     StartScreen.add(registerButton);
 
-
+    /**
+     * Register screen
+     */
     registerScreen.setLayout(new BoxLayout(registerScreen, BoxLayout.Y_AXIS));
     registerScreen.add(usernameP);
     registerScreen.add(loginP);
@@ -166,10 +201,9 @@ public class Window extends JFrame implements ActionListener {
     registerScreen.add(registerNowButton);
     registerNowButton.setMaximumSize(new Dimension(150,50));
 
-
-
-
-
+    /**
+     * Login screen
+     */
 
     loginScreen.setLayout(new BoxLayout(loginScreen, BoxLayout.Y_AXIS));
     loginScreen.add(usernamePP);
@@ -196,8 +230,63 @@ public class Window extends JFrame implements ActionListener {
     passwordField1.setMaximumSize(new Dimension(600,50));
 
 
-    splitPane1.setBottomComponent(registerScreen);
-    splitPane1.setTopComponent(StartScreen);
+    /**
+     * Admin screen
+     */
+//    banOptionButton.setBounds(60,100,100,50);
+//    createAdminButton.setBounds(60,200,100,50);
+    AdminScreen.setLayout(new BoxLayout(AdminScreen, BoxLayout.Y_AXIS));
+
+    AdminScreen.add(banOptionButton);
+    AdminScreen.add(createAdminButton);
+    banOptionButton.setMaximumSize(new Dimension(200,50));
+    createAdminButton.setMaximumSize(new Dimension(200,50));
+
+    /**
+     * ban Panel
+     */
+    banScreen.setLayout(new BoxLayout(banScreen, BoxLayout.Y_AXIS));
+    banScreen.add(banP);
+    banP.setLayout(new BoxLayout(banP, BoxLayout.X_AXIS));
+    banP.add(userToBan);
+    userToBan.setMaximumSize(new Dimension(200,50));
+    banP.add(userToBanT);
+    userToBanT.setMaximumSize(new Dimension(200,50));
+    banScreen.add(banButton);
+    banButton.setMaximumSize(new Dimension(150,50));
+
+    /**
+     * create Admin Panel
+     */
+    createAdminScreen.setLayout(new BoxLayout(createAdminScreen, BoxLayout.Y_AXIS));
+    createAdminScreen.add(usernamePPP);
+    createAdminScreen.add(loginPPP);
+    createAdminScreen.add(passwordPPP);
+    createAdminScreen.add(addAdmin);
+
+    usernamePPP.setLayout(new BoxLayout(usernamePPP, BoxLayout.X_AXIS));
+    loginPPP.setLayout(new BoxLayout(loginPPP, BoxLayout.X_AXIS));
+    passwordPPP.setLayout(new BoxLayout(passwordPPP, BoxLayout.X_AXIS));
+
+    usernamePPP.add(usernameLLL);
+    usernameLLL.setMaximumSize(new Dimension(200,50));
+    loginPPP.add(loginLLL);
+    loginLLL.setMaximumSize(new Dimension(200,50));
+    passwordPPP.add(passwordLLL);
+    passwordLLL.setMaximumSize(new Dimension(200,50));
+
+    usernamePPP.add(usernameField2);
+    usernameField2.setMaximumSize(new Dimension(600,50));
+    loginPPP.add(loginField2);
+    loginField2.setMaximumSize(new Dimension(600,50));
+    passwordPPP.add(passwordField2);
+    passwordField2.setMaximumSize(new Dimension(600,50));
+
+
+
+
+    splitPane1.setBottomComponent(createAdminScreen);
+    splitPane1.setTopComponent(AdminScreen);
 
 
 
