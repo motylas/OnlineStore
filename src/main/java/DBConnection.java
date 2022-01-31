@@ -69,11 +69,8 @@ public class DBConnection {
             pstmt.setString(6, lastname);
             pstmt.setInt(7, phone_number);
             pstmt.setString(8, email);
-            System.out.println("tss");
             pstmt.execute();
-            System.out.println("ys");
         } catch (Exception e) {
-            System.out.println("Cos poszlo nie tak!");
             return false;
         }
         return true;
@@ -127,8 +124,8 @@ public class DBConnection {
         return true;
     }
 
-    ArrayList showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country) {
-        ArrayList<String> productInfo = new ArrayList<>();
+    ArrayList<ArrayList<String>> showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country) {
+        ArrayList<ArrayList<String>> productsList = new ArrayList<>();
         try {
             if (productName == null || productName.isBlank()) {
                 productName = "%";
@@ -173,7 +170,6 @@ public class DBConnection {
             pstmt.setFloat(5, minPrice);
             pstmt.setFloat(6, maxPrice);
             ResultSet rs = pstmt.executeQuery();
-            ArrayList<ArrayList<String>> productsList = new ArrayList<>();
             ArrayList<String> titles = new ArrayList<>();
             titles.add("Description");
             titles.add("Seller");
@@ -187,25 +183,19 @@ public class DBConnection {
                 String cName = rs.getString(3);
                 int q = rs.getInt(4);
                 float cost = rs.getFloat(5);
+                ArrayList<String> productInfo = new ArrayList<>();
                 productInfo.add(prodName);
                 productInfo.add(sellNick);
                 productInfo.add(cName);
                 productInfo.add(String.valueOf(q));
                 productInfo.add(String.valueOf(cost));
                 productsList.add(productInfo);
-
-//                System.out.print("Prod: " + prodName);
-//                System.out.print("  Seller Nicnkame: " + sellNick);
-//                System.out.print("  Country: " + cName);
-//                System.out.print("  Quantity: " + q);
-//                System.out.print("  cost: " + cost);
-//                System.out.println();
             }
         } catch (Exception e) {
             System.out.println("Cos poszlo nie tak!");
             return null;
         }
-        return productInfo;
+        return productsList;
     }
 
     boolean addProductToOrder(String client_id, String seller_name, String product_name, String country, int quantity, float price) {

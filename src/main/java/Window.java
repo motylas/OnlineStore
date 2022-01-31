@@ -126,8 +126,6 @@ public class Window extends JFrame implements ActionListener {
   JTextField userToBanT = new JTextField();
   JButton banButton = new JButton("Ban User");
 
-  JTable j;
-
 
 
   private void Prepare() {
@@ -298,76 +296,11 @@ public class Window extends JFrame implements ActionListener {
      */
     showUsersPA.setLayout(new BoxLayout(showUsersPA, BoxLayout.Y_AXIS));
 
-//    String[][] data = new String[10][5];
-//    data[0][0] = "a";
-//    data[0][1] = "a";
-//    data[0][2] = "a";
-//    data[0][3] = "a";
-//    data[0][4] = "a";
-
-//     String[][] data = {
-//        { "Kundan Kumar Jha", "4031", "CSE", "1","ads"},
-//        { "Anand Jha", "6014", "IT" , "1","asd"},
-//        { "Kundan Kumar Jha", "4031", "CSE", "1","ads"},
-//        { "Anand Jha", "6014", "IT" , "1","asd"},
-//        { "Kundan Kumar Jha", "4031", "CSE", "1","ads"},
-//        { "Anand Jha", "6014", "IT" , "1","asd"},
-//        { "Kundan Kumar Jha", "4031", "CSE", "1","ads"},
-//        { "Anand Jha", "6014", "IT" , "1","asd"}
-//    };
-
-
-
-//    ArrayList<ArrayList<String>> listaProduktow = new ArrayList();
-//    ArrayList<String> columnNames = listaProduktow.remove(0);
-//
-//
-//
-//    String[][] stringArray = listaProduktow.stream().map(u -> u.toArray(new String[0])).toArray(String[][]::new);
-//
-//    String[] columns = columnNames.toArray(String[]::new);
-//    j = new JTable(stringArray, columns);
-//
-//    DefaultTableModel tableModel = new DefaultTableModel(stringArray,columns) {
-//
-//      @Override
-//      public boolean isCellEditable(int row, int column) {
-//        //all cells false
-//        return false;
-//      }
-//    };
-//    j.setModel(tableModel);
-//    j.setBounds(30, 40, 200, 10);
-//    JScrollPane sp = new JScrollPane(j);
-//    showUsersPA.add(sp);
-
-
-
-
     splitPane1.setBottomComponent(loginScreen);
     splitPane1.setTopComponent(StartScreen);
 
-
-
   }
 
-//  private void screens(){
-//
-//    if(screenIndex == 0){
-//      splitPane1.setBottomComponent(loginScreen);
-//      System.out.println("1");
-//    }
-//    else if(screenIndex == 1){
-//      splitPane1.setBottomComponent(registerScreen);
-//      System.out.println("2");
-//    }
-//    else if(screenIndex == 2){
-//      splitPane1.setBottomComponent(createAdminScreen);
-//    }
-//    else if(screenIndex == 3){
-//      splitPane1.setBottomComponent(banScreen);
-//    }
-//  }
 
   private void Surface() {
     Prepare();
@@ -389,12 +322,12 @@ public class Window extends JFrame implements ActionListener {
         App.login(login,pass);
         splitPane1.setTopComponent(AdminScreen);
       } catch (Exception ex) {
-        ex.printStackTrace();
+        loginError.setText("Wrong login or password");
       }
     });
 
     registerNowButton.addActionListener(e -> {
-      String username = usernameField.getText();
+      try{String username = usernameField.getText();
       String login = loginField.getText();
       String pass = String.valueOf(passwordField.getPassword());
       String typeS = type.getSelectedItem();
@@ -402,10 +335,14 @@ public class Window extends JFrame implements ActionListener {
       String lastname = lastnameField.getText();
       int phone = Integer.parseInt(phoneField.getText());
       String email = emailField.getText();
-        try {
-            App.register(username,login,pass,typeS,name,lastname,phone,email);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+      if (!App.register(username,login,pass,typeS,name,lastname,phone,email)){
+        registerError.setText("Taki uzytkownik istnieje lub za krotkie teksty!");
+      }
+        } catch (NumberFormatException exx){
+        registerError.setText("Numer telefonu nie pasuje!");
+      }
+      catch (Exception ex) {
+           registerError.setText("Taki uzytkownik istnieje!");
         }
     });
 
@@ -417,10 +354,32 @@ public class Window extends JFrame implements ActionListener {
       splitPane1.setBottomComponent(banScreen);
     });
 
+    showProducts.addActionListener(e ->{
+      splitPane1.setBottomComponent(showUsersPA);
+      ArrayList<ArrayList<String>> listaProduktow = App.showProducts("","",0,0,0,"");
+      ArrayList<String> columnNames = listaProduktow.remove(0);
 
 
 
+      String[][] stringArray = listaProduktow.stream().map(u -> u.toArray(new String[0])).toArray(String[][]::new);
 
+      String[] columns = columnNames.toArray(String[]::new);
+      JTable j = new JTable(stringArray, columns);
+      JScrollPane sp = new JScrollPane(j);
+
+      DefaultTableModel tableModel = new DefaultTableModel(stringArray,columns) {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+          //all cells false
+          return false;
+       }
+      };
+     j.setModel(tableModel);
+     j.setBounds(30, 40, 200, 10);
+     showUsersPA.removeAll();
+     showUsersPA.add(sp);
+     });
   }
 
   public static void main(String[] var0) {

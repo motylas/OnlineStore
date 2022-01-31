@@ -3,6 +3,7 @@ import javax.crypto.spec.PBEKeySpec;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -31,14 +32,14 @@ public class App {
 //        addProduct();
     }
 
-    public static void register(String nick, String login, String password, String type, String name, String lastname, int phone_number, String email) throws Exception {
-        System.out.println(db.register(nick,login,password,type,name,lastname,phone_number,email));
+    public static boolean register(String nick, String login, String password, String type, String name, String lastname, int phone_number, String email) throws Exception {
+        return db.register(nick,login,password,type,name,lastname,phone_number,email);
     }
 
     public static void login(String login, String password) throws Exception {
         user_id = db.login(login,password);
         if (user_id == -1){
-            System.out.println("ERROR");
+            throw new Exception("login exception");
         }
     }
 
@@ -70,5 +71,9 @@ public class App {
         System.out.print("PODAJ NICK: ");
         String nick = scanner.nextLine();
         db.strikeSeller(nick);
+    }
+
+    public static ArrayList<ArrayList<String>> showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country){
+        return db.showProducts(productName, sellerNick, maxPrice, minPrice, minQuantity, country);
     }
 }
