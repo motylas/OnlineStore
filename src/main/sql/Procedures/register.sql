@@ -11,9 +11,9 @@ BEGIN
         WHERE nickname = nick
         );
     IF isnull(pid) THEN ROLLBACK;
-    end if ;
-    INSERT INTO personal_data VALUES(pid,pname,plastname,pphone_number,pemail);
+    else INSERT INTO personal_data VALUES(pid,pname,plastname,pphone_number,pemail);
     COMMIT;
+    end if ;
 
 end $$
 DELIMITER ;

@@ -1,24 +1,24 @@
-//import com.mysql.cj.protocol.Resultset;
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.SecureRandom;
-import java.security.spec.ECField;
-import java.security.spec.KeySpec;
 import java.sql.*;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.ArrayList;
+
 
 public class DBConnection {
-    static Connection con = null;
+    Connection con = null;
 
-    static public void connection() throws Exception {
+    public void connection() throws Exception {
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost/online_shop", "root", "");
-        System.out.println("Xampp Mysql Connected..");
+        con = DriverManager.getConnection("jdbc:mysql://localhost/online_shop", "user", "");
+        System.out.println("Xampp Mysql Connected as User...");
     }
 
-    static int login(String login, String password) throws Exception {
+    private void changeConnection(String type) throws SQLException {
+        con = DriverManager.getConnection("jdbc:mysql://localhost/online_shop", type, "");
+        System.out.println("Connected as " + type + "...");
+    }
+
+
+    int login(String login, String password) throws Exception {
+        String type;
         String encPass = EncryptionDecryptionAES.encrypt(password);
         try {
             PreparedStatement pstmt = con.prepareStatement
@@ -29,6 +29,7 @@ public class DBConnection {
             while (rs.next()) {
                 String log = rs.getString("login");
                 String pass = rs.getString("user_password");
+                type = rs.getString("type");
                 int id = rs.getInt("id");
                 if (login.equals(log) && encPass.equals(pass)) {
                     PreparedStatement ppst = con.prepareStatement
@@ -43,6 +44,7 @@ public class DBConnection {
                         }
                     }
                     System.out.println("logged in!");
+                    changeConnection(type);
                     return id;
                 }
             }
@@ -54,7 +56,7 @@ public class DBConnection {
         return -1;
     }
 
-    static boolean register(String nick, String login, String password, String type, String name, String lastname, int phone_number, String email) throws Exception {
+    boolean register(String nick, String login, String password, String type, String name, String lastname, int phone_number, String email) throws Exception {
         String encPass = EncryptionDecryptionAES.encrypt(password);
         try {
             PreparedStatement pstmt = con.prepareStatement
@@ -67,7 +69,9 @@ public class DBConnection {
             pstmt.setString(6, lastname);
             pstmt.setInt(7, phone_number);
             pstmt.setString(8, email);
+            System.out.println("tss");
             pstmt.execute();
+            System.out.println("ys");
         } catch (Exception e) {
             System.out.println("Cos poszlo nie tak!");
             return false;
@@ -75,7 +79,7 @@ public class DBConnection {
         return true;
     }
 
-    static boolean addProduct(int seller_id, String name, String country, int quantity, float price) {
+    boolean addProduct(int seller_id, String name, String country, int quantity, float price) {
         try {
             CallableStatement cstmt = con.prepareCall("{? = CALL checkCountry(?)}");
             cstmt.registerOutParameter(1, Types.BOOLEAN);
@@ -110,7 +114,7 @@ public class DBConnection {
         return true;
     }
 
-    static boolean strikeSeller(String sellerNickname) {
+    boolean strikeSeller(String sellerNickname) {
         try {
             PreparedStatement pstmt = con.prepareStatement
                     ("CALL online_shop.strikeSeller(?)");
@@ -123,7 +127,8 @@ public class DBConnection {
         return true;
     }
 
-    static boolean showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country) {
+    ArrayList showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country) {
+        ArrayList<String> productInfo = new ArrayList<>();
         try {
             if (productName == null || productName.isBlank()) {
                 productName = "%";
@@ -161,37 +166,49 @@ public class DBConnection {
                             "quantity > ? AND " +
                             "price > ? AND " +
                             "price < ?");
-            System.out.println("ys2");
             pstmt.setString(1, productName);
             pstmt.setString(2, country);
             pstmt.setString(3, sellerNick);
             pstmt.setInt(4, minQuantity);
             pstmt.setFloat(5, minPrice);
             pstmt.setFloat(6, maxPrice);
-            System.out.println("ys3");
             ResultSet rs = pstmt.executeQuery();
-            System.out.println("ys4");
+            ArrayList<ArrayList<String>> productsList = new ArrayList<>();
+            ArrayList<String> titles = new ArrayList<>();
+            titles.add("Description");
+            titles.add("Seller");
+            titles.add("Country");
+            titles.add("Quantity");
+            titles.add("Price per unit");
+            productsList.add(titles);
             while (rs.next()) {
                 String prodName = rs.getString(1);
                 String sellNick = rs.getString(2);
                 String cName = rs.getString(3);
                 int q = rs.getInt(4);
                 float cost = rs.getFloat(5);
-                System.out.print("Prod: " + prodName);
-                System.out.print("  Seller Nicnkame: " + sellNick);
-                System.out.print("  Country: " + cName);
-                System.out.print("  Quantity: " + q);
-                System.out.print("  cost: " + cost);
-                System.out.println();
+                productInfo.add(prodName);
+                productInfo.add(sellNick);
+                productInfo.add(cName);
+                productInfo.add(String.valueOf(q));
+                productInfo.add(String.valueOf(cost));
+                productsList.add(productInfo);
+
+//                System.out.print("Prod: " + prodName);
+//                System.out.print("  Seller Nicnkame: " + sellNick);
+//                System.out.print("  Country: " + cName);
+//                System.out.print("  Quantity: " + q);
+//                System.out.print("  cost: " + cost);
+//                System.out.println();
             }
         } catch (Exception e) {
             System.out.println("Cos poszlo nie tak!");
-            return false;
+            return null;
         }
-        return true;
+        return productInfo;
     }
 
-    static boolean addProductToOrder(String client_id, String seller_name, String product_name, String country, int quantity, float price) {
+    boolean addProductToOrder(String client_id, String seller_name, String product_name, String country, int quantity, float price) {
 //        try {
 //            PreparedStatement pstmt = con.prepareStatement
 //                    ("SELECT ");

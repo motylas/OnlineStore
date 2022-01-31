@@ -43,7 +43,7 @@ public class Window extends JFrame implements ActionListener {
 
   JTextField usernameField = new JTextField();
   JTextField loginField = new JTextField();
-  JTextField passwordField = new JTextField();
+  JPasswordField passwordField = new JPasswordField();
   JTextField nameField = new JTextField();
   JTextField lastnameField = new JTextField();
   JTextField phoneField = new JTextField();
@@ -79,7 +79,7 @@ public class Window extends JFrame implements ActionListener {
 
   JTextField usernameField1 = new JTextField();
   JTextField loginField1 = new JTextField();
-  JTextField passwordField1 = new JTextField();
+  JPasswordField passwordField1 = new JPasswordField();
 
 
 
@@ -232,6 +232,31 @@ public class Window extends JFrame implements ActionListener {
       screens();
     });
 
+    logInButton.addActionListener(e ->{
+      String login = loginField1.getText();
+      String pass = String.valueOf(passwordField1.getPassword());
+      try {
+        App.login(login,pass);
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
+    });
+    registerNowButton.addActionListener(e -> {
+      String username = usernameField.getText();
+      String login = loginField.getText();
+      String pass = String.valueOf(passwordField.getPassword());
+      String typeS = type.getSelectedItem();
+      String name = nameField.getText();
+      String lastname = lastnameField.getText();
+      int phone = Integer.parseInt(phoneField.getText());
+      String email = emailField.getText();
+        try {
+            App.register(username,login,pass,typeS,name,lastname,phone,email);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    });
+
   }
 
   public static void main(String[] var0) {
@@ -249,8 +274,7 @@ public class Window extends JFrame implements ActionListener {
     Surface();
 //    add(this.surface);
     setBounds(100, 0, 1280, 960);
-    setVisible(false);
-    
+    setVisible(true);
   }
 
   @Override

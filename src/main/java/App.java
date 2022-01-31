@@ -8,57 +8,35 @@ import java.util.Scanner;
 
 public class App {
     final static Scanner scanner = new Scanner(System.in);
+    static DBConnection db = new DBConnection();
+
     static int user_id;
+
     public static void main(String[] args) throws Exception {
-        DBConnection.connection();
+        db.connection();
         EncryptionDecryptionAES.prepareHash();
-//        DBConnection.showProducts("     ","       ",0,0,0,"P");
-//        DBConnection.addProduct(2,"frytkownica","Poland",1,59);
-//        DBConnection.addProduct(2,"mandarynki","Poland",4,7);
-//        DBConnection.addProduct(3,"frytki","Poland",6,7);
-//        DBConnection.addProduct(2,"frytki","China",2,11);
-        System.out.println("1. LOGIN");
-        System.out.println("2. REGISTER");
-        int choice = Integer.parseInt(scanner.nextLine());
-        switch (choice) {
-            case 1 -> login();
-            case 2 -> register();
-        }
+        Window window = new Window();
+//        db.showProducts("f","       ",0,0,2,"P");
+//        db.addProduct(2,"frytkownica","Poland",1,59);
+//        db.addProduct(2,"mandarynki","Poland",4,7);
+//        db.addProduct(3,"frytki","Poland",6,7);
+//        db.addProduct(2,"frytki","China",2,11);
+//        System.out.println("1. LOGIN");
+//        System.out.println("2. REGISTER");
+//        int choice = Integer.parseInt(scanner.nextLine());
+//        switch (choice) {
+//            case 1 -> login();
+//            case 2 -> register();
+//        }
 //        addProduct();
     }
 
-    private static void register() throws Exception {
-        System.out.print("PODAJ nick: ");
-        String nick = scanner.nextLine();
-        System.out.print("PODAJ LOGIN: ");
-        String login = scanner.nextLine();
-        System.out.print("PODAJ HASLO: ");
-        String password = scanner.nextLine();
-        System.out.print("PODAJ type: ");
-        String type = scanner.nextLine();
-        System.out.print("PODAJ name: ");
-        String name = scanner.nextLine();
-        System.out.print("PODAJ lastname: ");
-        String lastname = scanner.nextLine();
-        System.out.print("PODAJ phone_number: ");
-        int phone_number;
-        try{
-            phone_number = Integer.parseInt(scanner.nextLine());
-        } catch(Exception e){
-            System.out.println("wrong number");
-            return;
-        }
-        System.out.print("PODAJ email: ");
-        String email = scanner.nextLine();
-        System.out.println(DBConnection.register(nick,login,password,type,name,lastname,phone_number,email));
+    public static void register(String nick, String login, String password, String type, String name, String lastname, int phone_number, String email) throws Exception {
+        System.out.println(db.register(nick,login,password,type,name,lastname,phone_number,email));
     }
 
-    private static void login() throws Exception {
-        System.out.print("PODAJ LOGIN: ");
-        String login = scanner.nextLine();
-        System.out.print("PODAJ HASLO: ");
-        String password = scanner.nextLine();
-        user_id = DBConnection.login(login,password);
+    public static void login(String login, String password) throws Exception {
+        user_id = db.login(login,password);
         if (user_id == -1){
             System.out.println("ERROR");
         }
@@ -85,12 +63,12 @@ public class App {
             System.out.println("wrong input");
             return;
         }
-        DBConnection.addProduct(user_id, name, country, quantity, price);
+        db.addProduct(user_id, name, country, quantity, price);
     }
 
     private static void strikeSeller(){
         System.out.print("PODAJ NICK: ");
         String nick = scanner.nextLine();
-        DBConnection.strikeSeller(nick);
+        db.strikeSeller(nick);
     }
 }
