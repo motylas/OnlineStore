@@ -57,8 +57,10 @@ public class Window extends JFrame implements ActionListener {
     JButton showUsers = new JButton("Show Users");
     JButton showPersonalData = new JButton("Show Personal data");
     JButton showProducts = new JButton("Show Products");
-    JButton sellerButton1 = new JButton("sB1");
-    JButton sellerButton2 = new JButton("sB2");
+    JButton showOffersS = new JButton("Show Offers");
+    JButton addProductS = new JButton("Add Product");
+    JButton showProductS = new JButton("Show Products");
+
     JButton customerButton1 = new JButton("cB1");
     JButton customerButton2 = new JButton("cB2");
 
@@ -125,6 +127,7 @@ public class Window extends JFrame implements ActionListener {
     JPasswordField passwordField2 = new JPasswordField();
 
     JButton addAdmin = new JButton("Create Admin");
+    JLabel createAdminError = new JLabel("Error");
 
     /**
      * Ban Screen
@@ -135,6 +138,7 @@ public class Window extends JFrame implements ActionListener {
     JLabel userToBan = new JLabel("Enter user nickname:");
     JTextField userToBanT = new JTextField();
     JButton banButton = new JButton("Ban User");
+    JLabel banError = new JLabel("Error");
 
   /**
    * Show Products Screen
@@ -299,6 +303,8 @@ public class Window extends JFrame implements ActionListener {
         userToBanT.setMaximumSize(new Dimension(200, 50));
         banScreen.add(banButton);
         banButton.setMaximumSize(new Dimension(150, 50));
+        banScreen.add(banError);
+
 
         /**
          * create Admin Panel
@@ -326,6 +332,8 @@ public class Window extends JFrame implements ActionListener {
         loginField2.setMaximumSize(new Dimension(600, 50));
         passwordPPP.add(passwordField2);
         passwordField2.setMaximumSize(new Dimension(600, 50));
+
+        createAdminScreen.add(createAdminError);
 
         /**
          * Show Users PA Screen
@@ -383,10 +391,12 @@ public class Window extends JFrame implements ActionListener {
        */
       SellerScreen.setLayout(new BoxLayout(SellerScreen, BoxLayout.Y_AXIS));
 
-      SellerScreen.add(sellerButton1);
-      SellerScreen.add(sellerButton2);
-      sellerButton1.setMaximumSize(new Dimension(200, 50));
-      sellerButton2.setMaximumSize(new Dimension(200, 50));
+      SellerScreen.add(showOffersS);
+      SellerScreen.add(addProductS);
+      SellerScreen.add(showProductS);
+      showOffersS.setMaximumSize(new Dimension(200, 50));
+      addProductS.setMaximumSize(new Dimension(200, 50));
+      showProductS.setMaximumSize(new Dimension(200, 50));
 
       /**
        * Customer screen
@@ -401,7 +411,7 @@ public class Window extends JFrame implements ActionListener {
 
 
 
-    splitPane1.setBottomComponent(loginScreen);
+    splitPane1.setBottomComponent(banScreen);
     splitPane1.setTopComponent(StartScreen);
 
   }
@@ -527,6 +537,10 @@ public class Window extends JFrame implements ActionListener {
         showPersonalData.addActionListener(e -> {
             App.addProductsToOrder();
         });
+
+      showUsers.addActionListener(e -> {
+
+      });
     }
 
     public static void main(String[] var0) {
