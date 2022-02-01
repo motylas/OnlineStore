@@ -17,7 +17,7 @@ public class DBConnection {
     }
 
 
-    int login(String login, String password) throws Exception {
+    String login(String login, String password) throws Exception {
         String type;
         String encPass = EncryptionDecryptionAES.encrypt(password);
         try {
@@ -40,20 +40,20 @@ public class DBConnection {
                         int strikes = rss.getInt("strike");
                         if (strikes >= 3) {
                             System.out.println("You got banned");
-                            return -5;
+                            return "-5";
                         }
                     }
                     System.out.println("logged in!");
                     changeConnection(type);
-                    return id;
+                    return id+";"+type;
                 }
             }
         } catch (Exception e) {
             System.out.println("Error404!");
-            return -1;
+            return "-1";
         }
         System.out.println("Wrong login or password");
-        return -1;
+        return "-1";
     }
 
     boolean register(String nick, String login, String password, String type, String name, String lastname, int phone_number, String email) throws Exception {
@@ -145,13 +145,6 @@ public class DBConnection {
             } else {
                 country += "%";
             }
-            System.out.print("Prod: " + productName);
-            System.out.print("  Seller Nicnkame: " + sellerNick);
-            System.out.print("  Country: " + country);
-            System.out.print("  PriceMin: " + minPrice);
-            System.out.print("  PriceMax: " + maxPrice);
-            System.out.print("  quantity: " + minQuantity);
-            System.out.println();
             PreparedStatement pstmt = con.prepareStatement
                     ("SELECT p.name,u.nickname,c.name,quantity,price FROM online_shop.products as p " +
                             "JOIN online_shop.country c on c.id = p.country_id " +

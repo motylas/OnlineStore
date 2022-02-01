@@ -36,11 +36,13 @@ public class App {
         return db.register(nick,login,password,type,name,lastname,phone_number,email);
     }
 
-    public static void login(String login, String password) throws Exception {
-        user_id = db.login(login,password);
+    public static String login(String login, String password) throws Exception {
+        String[] values = db.login(login,password).split(";");
+        user_id = Integer.parseInt(values[0]);
         if (user_id == -1){
             throw new Exception("login exception");
         }
+        return values[1];
     }
 
     private static void addProduct(){
