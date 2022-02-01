@@ -477,7 +477,7 @@ public class Window extends JFrame implements ActionListener {
 
 
     splitPane1.setBottomComponent(loginScreen);
-    splitPane1.setTopComponent(AdminScreen);
+    splitPane1.setTopComponent(StartScreen);
 
   }
 
@@ -739,8 +739,24 @@ public class Window extends JFrame implements ActionListener {
         );
       });
 
+        /**
+         * Seller buttons
+         */
+
       addProductS.addActionListener(e -> {
         splitPane1.setBottomComponent(addProductScreen);
+      });
+
+      addProductButton.addActionListener(e ->{
+          try {
+              String name = addNameTextField.getText();
+              String country = addCountryTextField.getText();
+              int qtty = Integer.parseInt(addQuantityTextField.getText());
+              float cost = Float.parseFloat(addPriceTextField.getText());
+              App.addProduct(name,country,qtty,cost);
+          } catch (Exception x){
+              System.out.println("Wrong");
+          }
       });
     }
 
