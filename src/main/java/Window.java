@@ -50,6 +50,8 @@ public class Window extends JFrame implements ActionListener {
     JPanel addProductScreen = new JPanel();
     JPanel showProductSPA = new JPanel();
     JPanel showOffersSPA = new JPanel();
+    JPanel showProductsCPA = new JPanel();
+    JPanel addProductsCPA = new JPanel();
 
 
 
@@ -69,8 +71,13 @@ public class Window extends JFrame implements ActionListener {
     JButton addProductButton = new JButton("Add Product");
     JButton showProductsFilterButton = new JButton("Apply");
 
-    JButton customerButton1 = new JButton("cB1");
-    JButton customerButton2 = new JButton("cB2");
+
+    /**
+     * Customer buttons
+     */
+    JButton showProductsC = new JButton("Show Products");
+    JButton addProductsC = new JButton("Add Products");
+    JButton addBasket = new JButton("Add basket");
 
 
     /**
@@ -434,14 +441,17 @@ public class Window extends JFrame implements ActionListener {
        */
       CustomerScreen.setLayout(new BoxLayout(CustomerScreen, BoxLayout.Y_AXIS));
 
-      CustomerScreen.add(customerButton1);
-      CustomerScreen.add(customerButton2);
-      customerButton1.setMaximumSize(new Dimension(200, 50));
-      customerButton2.setMaximumSize(new Dimension(200, 50));
+      CustomerScreen.add(showProductsC);
+      CustomerScreen.add(addProductsC);
+      CustomerScreen.add(addBasket);
+      showProductsC.setMaximumSize(new Dimension(200, 50));
+      addProductsC.setMaximumSize(new Dimension(200, 50));
+      addBasket.setMaximumSize(new Dimension(200, 50));
 
-      /**
-       * Seller add product Screen
-       */
+
+    /**
+     * Seller add product Screen
+     */
 
       addProductScreen.setLayout(new BoxLayout(addProductScreen, BoxLayout.Y_AXIS));
       addProductScreen.add(addProductPanel);
@@ -518,7 +528,7 @@ public class Window extends JFrame implements ActionListener {
                     break;
                   case "customer":
                     splitPane1.setTopComponent(CustomerScreen);
-//                    splitPane1.setBottomComponent(customerButton1);
+                    splitPane1.setBottomComponent(showProductsPA);
                     break;
                 }
 
@@ -868,6 +878,73 @@ public class Window extends JFrame implements ActionListener {
             }
         );
       });
+
+      /**
+       * Customer Buttons
+       */
+
+      showProductsC.addActionListener(e -> {
+        splitPane1.setBottomComponent(showProductsPA);
+        ArrayList<Product> listaProduktow = App.showProducts("", "", 0, 0, 0, "");
+        String[] columns = {
+            "Description", "Seller", "Country", "Quantity", "Price", "Add product"
+        };
+
+        Object[][] stringArray = new Object[listaProduktow.size()][6];
+        int i=0;
+        for (Product product : listaProduktow) {
+          stringArray[i][0]=product.description;
+          stringArray[i][1]=product.seller;
+          stringArray[i][2]=product.country;
+          stringArray[i][3]=String.valueOf(product.quantity);
+          stringArray[i][4]=String.valueOf(product.pricePerUnit);
+          i++;
+        }
+
+        JTable j = new JTable();
+        JScrollPane sp = new JScrollPane(j);
+
+        DefaultTableModel tableModel = new DefaultTableModel(stringArray, columns) {
+          @Override
+          public boolean isCellEditable(int row, int column) {
+            return column == 5;
+          }
+        };
+        j.setModel(tableModel);
+        j.getColumn("Add product").setCellRenderer(new ButtonRenderer());
+        j.getColumn("Add product").setCellEditor(new ButtonEditor(new JCheckBox()));
+        j.setBounds(30, 40, 200, 10);
+        showProductsPA.removeAll();
+        showProductsPA.add(showProductsFilter);
+        showProductsPA.add(sp);
+        for (ActionListener al:button.getActionListeners()) {
+          button.removeActionListener(al);
+        }
+        button.addActionListener(
+            new ActionListener()
+            {
+              public void actionPerformed(ActionEvent event)
+              {
+                description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
+                seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
+                country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
+                AddProductWindow apw = new AddProductWindow();
+                //App.addToBasket(new Product(description,seller,country,quantity,price));
+//                            JOptionPane.showMessageDialog(null,"Do you want to modify "
+//                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
+              }
+            }
+        );
+      });
+
+      addBasket.addActionListener(e -> {
+
+      });
+
+      addProductsC.addActionListener(e -> {
+
+      });
+
 
 
     }
