@@ -1,3 +1,5 @@
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -12,8 +14,8 @@ public class DBConnection {
     }
 
     private void changeConnection(String type) throws SQLException {
-        con = DriverManager.getConnection("jdbc:mysql://localhost/online_shop", type, "");
-        System.out.println("Connected as " + type + "...");
+        //con = DriverManager.getConnection("jdbc:mysql://localhost/online_shop", type, "");
+        //System.out.println("Connected as " + type + "...");
     }
 
 
@@ -221,6 +223,22 @@ public class DBConnection {
         } catch (Exception e) {
             e.printStackTrace();
             //System.out.println("Cos poszlo nie tak!");
+            return false;
+        }
+        return true;
+    }
+
+    boolean addAdmin(String nick, String login, String pass){
+        try{
+            String encPass = EncryptionDecryptionAES.encrypt(pass);
+            PreparedStatement pstmt = con.prepareStatement
+                    ("INSERT INTO online_shop.users(nickname, login, user_password, type) VALUES(?,?,?,'admin')");
+            pstmt.setString(1,nick);
+            pstmt.setString(2,login);
+            pstmt.setString(3,encPass);
+            pstmt.execute();
+        } catch (Exception e) {
+            System.out.println("wrong");
             return false;
         }
         return true;

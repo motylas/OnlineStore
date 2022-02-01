@@ -70,10 +70,8 @@ public class App {
         db.addProduct(user_id, name, country, quantity, price);
     }
 
-    private static void strikeSeller(){
-        System.out.print("PODAJ NICK: ");
-        String nick = scanner.nextLine();
-        db.strikeSeller(nick);
+    public static boolean strikeSeller(String nick){
+        return db.strikeSeller(nick);
     }
 
     public static ArrayList<Product> showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country){
@@ -87,6 +85,10 @@ public class App {
 
     public static void addToBasket(Product product){
         basket.add(product);
+    }
+
+    public static boolean addAdmin(String nick, String login, String pass){
+        return db.addAdmin(nick,login,pass);
     }
 
 }

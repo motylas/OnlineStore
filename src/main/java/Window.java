@@ -483,6 +483,9 @@ public class Window extends JFrame implements ActionListener {
     private void Surface() {
         Prepare();
 
+        /**
+         * Login Screen - User
+         */
         loginButton.addActionListener(e -> {
             splitPane1.setBottomComponent(loginScreen);
             setBounds(100, 0, 1279, 960);
@@ -538,12 +541,35 @@ public class Window extends JFrame implements ActionListener {
             }
         });
 
+        /**
+         * Admin buttons
+         */
+
         createAdminButton.addActionListener(e -> {
             splitPane1.setBottomComponent(createAdminScreen);
         });
 
+        addAdmin.addActionListener(e -> {
+            String nick = usernameField2.getText();
+            String login = loginField2.getText();
+            String pass = String.valueOf(passwordField2.getPassword());
+            if(App.addAdmin(nick,login,pass)){
+                createAdminError.setText("Admin Added");
+            }
+            else{
+                createAdminError.setText("Admin not added");
+            }
+        });
+
         banOptionButton.addActionListener(e -> {
             splitPane1.setBottomComponent(banScreen);
+        });
+
+        banButton.addActionListener(e -> {
+            String userBan = userToBanT.getText();
+            if(!App.strikeSeller(userBan)){
+                banError.setText("Zla nazwa");
+            }
         });
 
         showProducts.addActionListener(e -> {
