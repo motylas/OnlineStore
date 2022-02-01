@@ -45,6 +45,8 @@ public class Window extends JFrame implements ActionListener {
     JPanel showPersonalDataPA = new JPanel();
     JPanel SellerScreen = new JPanel();
     JPanel CustomerScreen = new JPanel();
+    JPanel addProductScreen = new JPanel();
+
 
 
     /**
@@ -60,6 +62,7 @@ public class Window extends JFrame implements ActionListener {
     JButton showOffersS = new JButton("Show Offers");
     JButton addProductS = new JButton("Add Product");
     JButton showProductS = new JButton("Show Products");
+    JButton addProductButton = new JButton("Add Product");
 
     JButton customerButton1 = new JButton("cB1");
     JButton customerButton2 = new JButton("cB2");
@@ -166,9 +169,28 @@ public class Window extends JFrame implements ActionListener {
   JTextField minpriceFilterText = new JTextField();
   JTextField maxpriceFilterText = new JTextField();
 
+  /**
+   * Customer add product Screen
+   */
+
+  JPanel addProductPanel = new JPanel();
+  JPanel addNamePanel = new JPanel();
+  JPanel addCountryPanel = new JPanel();
+  JPanel addQuantityPanel = new JPanel();
+  JPanel addPricePanel = new JPanel();
+
+  JLabel addNameLabel = new JLabel("Enter Product Name");
+  JLabel addCountryLabel = new JLabel("Enter Country");
+  JLabel addQuantityLabel = new JLabel("Enter Quantity");
+  JLabel addPriceLabel = new JLabel("Enter Price");
+
+  JTextField addNameTextField = new JTextField();
+  JTextField addCountryTextField = new JTextField();
+  JTextField addQuantityTextField = new JTextField();
+  JTextField addPriceTextField = new JTextField();
 
 
-    private void Prepare() {
+  private void Prepare() {
 //    bottomPanel.setBackground(Color.GREEN);
 //    topPanel.setBackground(Color.RED);
         type.add("customer");
@@ -408,6 +430,44 @@ public class Window extends JFrame implements ActionListener {
       customerButton1.setMaximumSize(new Dimension(200, 50));
       customerButton2.setMaximumSize(new Dimension(200, 50));
 
+      /**
+       * Seller add product Screen
+       */
+
+      addProductScreen.setLayout(new BoxLayout(addProductScreen, BoxLayout.Y_AXIS));
+      addProductScreen.add(addProductPanel);
+      addProductScreen.add(addProductButton);
+      addProductButton.setMaximumSize(new Dimension(200, 50));
+
+      addProductPanel.setLayout(new BoxLayout(addProductPanel, BoxLayout.X_AXIS));
+      addProductPanel.add(addNamePanel);
+      addProductPanel.add(addCountryPanel);
+      addProductPanel.add(addQuantityPanel);
+      addProductPanel.add(addPricePanel);
+      addNamePanel.setLayout(new BoxLayout(addNamePanel, BoxLayout.Y_AXIS));
+      addCountryPanel.setLayout(new BoxLayout(addCountryPanel, BoxLayout.Y_AXIS));
+      addQuantityPanel.setLayout(new BoxLayout(addQuantityPanel, BoxLayout.Y_AXIS));
+      addPricePanel.setLayout(new BoxLayout(addPricePanel, BoxLayout.Y_AXIS));
+      addNamePanel.add(addNameLabel);
+      addNameLabel.setMaximumSize(new Dimension(200,30));
+      addNamePanel.add(addNameTextField);
+      addNameTextField.setMaximumSize(new Dimension(200,50));
+      addCountryPanel.add(addCountryLabel);
+      addCountryLabel.setMaximumSize(new Dimension(200,30));
+      addCountryPanel.add(addCountryTextField);
+      addCountryTextField.setMaximumSize(new Dimension(200,50));
+      addQuantityPanel.add(addQuantityLabel);
+      addQuantityLabel.setMaximumSize(new Dimension(200,30));
+      addQuantityPanel.add(addQuantityTextField);
+      addQuantityTextField.setMaximumSize(new Dimension(200,50));
+      addPricePanel.add(addPriceLabel);
+      addPriceLabel.setMaximumSize(new Dimension(200,30));
+      addPricePanel.add(addPriceTextField);
+      addPriceTextField.setMaximumSize(new Dimension(200,50));
+
+
+
+
 
 
 
@@ -540,6 +600,10 @@ public class Window extends JFrame implements ActionListener {
 
       showUsers.addActionListener(e -> {
 
+      });
+
+      addProductS.addActionListener(e -> {
+        splitPane1.setBottomComponent(addProductScreen);
       });
     }
 
