@@ -65,6 +65,7 @@ public class Window extends JFrame implements ActionListener {
     JButton addProductS = new JButton("Add Product");
     JButton showProductS = new JButton("Show Products");
     JButton addProductButton = new JButton("Add Product");
+    JButton showProductsFilterButton = new JButton("Apply");
 
     JButton customerButton1 = new JButton("cB1");
     JButton customerButton2 = new JButton("cB2");
@@ -374,7 +375,9 @@ public class Window extends JFrame implements ActionListener {
     showProductsFilter.add(quantityFilterPanel);
     showProductsFilter.add(minpriceFilterPanel);
     showProductsFilter.add(maxpriceFilterPanel);
+    showProductsFilter.add(showProductsFilterButton);
 
+    showProductsFilterButton.setMaximumSize(new Dimension(200, 50));
 
     selleridFilterPanel.setLayout(new BoxLayout(selleridFilterPanel, BoxLayout.Y_AXIS));
     nameFilterPanel.setLayout(new BoxLayout(nameFilterPanel, BoxLayout.Y_AXIS));
@@ -472,7 +475,7 @@ public class Window extends JFrame implements ActionListener {
 
 
     splitPane1.setBottomComponent(loginScreen);
-    splitPane1.setTopComponent(StartScreen);
+    splitPane1.setTopComponent(AdminScreen);
 
   }
 
@@ -575,6 +578,7 @@ public class Window extends JFrame implements ActionListener {
             j.getColumn("Add product").setCellEditor(new ButtonEditor(new JCheckBox()));
             j.setBounds(30, 40, 200, 10);
             showUsersPA.removeAll();
+            showUsersPA.add(showProductsFilter);
             showUsersPA.add(sp);
             for (ActionListener al:button.getActionListeners()) {
                 button.removeActionListener(al);
