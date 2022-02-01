@@ -12,6 +12,7 @@ public class App {
     static DBConnection db = new DBConnection();
 
     static int user_id;
+    static ArrayList<Product> basket = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
         db.connection();
@@ -75,7 +76,17 @@ public class App {
         db.strikeSeller(nick);
     }
 
-    public static ArrayList<ArrayList<String>> showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country){
+    public static ArrayList<Product> showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country){
         return db.showProducts(productName, sellerNick, maxPrice, minPrice, minQuantity, country);
     }
+
+    public static void addProductsToOrder(){
+        db.addProductsToOrder(basket,user_id);
+        basket = null;
+    }
+
+    public static void addToBasket(Product product){
+        basket.add(product);
+    }
+
 }

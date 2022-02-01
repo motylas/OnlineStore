@@ -472,27 +472,21 @@ public class Window extends JFrame implements ActionListener {
 
         showProducts.addActionListener(e -> {
             splitPane1.setBottomComponent(showUsersPA);
-            ArrayList<ArrayList<String>> listaProduktow = App.showProducts("", "", 0, 0, 0, "");
-            ArrayList<String> columnNames = listaProduktow.remove(0);
+            ArrayList<Product> listaProduktow = App.showProducts("", "", 0, 0, 0, "");
+            String[] columns = {
+                    "Description", "Seller", "Country", "Quantity", "Price", "Add product"
+            };
 
-            Object[][] stringArray = new Object[listaProduktow.size()][columnNames.size() + 1];
-            int x = 0, y = 0;
-            for (ArrayList<String> product : listaProduktow) {
-                for (String properties : product) {
-                    stringArray[x][y] = properties;
-                    y++;
-                }
-                x++;
-                y = 0;
-            }
-
-            String[] columns = new String[columnNames.size() + 1];
-            int i = 0;
-            for (String column : columnNames) {
-                columns[i] = column;
+            Object[][] stringArray = new Object[listaProduktow.size()][6];
+            int i=0;
+            for (Product product : listaProduktow) {
+                stringArray[i][0]=product.description;
+                stringArray[i][1]=product.seller;
+                stringArray[i][2]=product.country;
+                stringArray[i][3]=String.valueOf(product.quantity);
+                stringArray[i][4]=String.valueOf(product.pricePerUnit);
                 i++;
             }
-            columns[i] = "Add product";
 
             JTable j = new JTable();
             JScrollPane sp = new JScrollPane(j);
@@ -500,7 +494,7 @@ public class Window extends JFrame implements ActionListener {
             DefaultTableModel tableModel = new DefaultTableModel(stringArray, columns) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
-                    return column == columnNames.size();
+                    return column == 5;
                 }
             };
             j.setModel(tableModel);
@@ -517,11 +511,21 @@ public class Window extends JFrame implements ActionListener {
                     {
                         public void actionPerformed(ActionEvent event)
                         {
-                            JOptionPane.showMessageDialog(null,"Do you want to modify "
-                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
+                            String description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
+                            String seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
+                            String country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
+                            int quantity = Integer.parseInt(String.valueOf(j.getValueAt(j.getEditingRow(),3)));
+                            float price = Float.parseFloat(String.valueOf(j.getValueAt(j.getEditingRow(),4)));
+                            App.addToBasket(new Product(description,seller,country,quantity,price));
+//                            JOptionPane.showMessageDialog(null,"Do you want to modify "
+//                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
                         }
                     }
             );
+        });
+
+        showPersonalData.addActionListener(e -> {
+            App.addProductsToOrder();
         });
     }
 

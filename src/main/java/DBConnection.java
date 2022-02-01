@@ -7,7 +7,7 @@ public class DBConnection {
 
     public void connection() throws Exception {
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost/online_shop", "user", "");
+        con = DriverManager.getConnection("jdbc:mysql://localhost/online_shop", "root", "");
         System.out.println("Xampp Mysql Connected as User...");
     }
 
@@ -124,8 +124,8 @@ public class DBConnection {
         return true;
     }
 
-    ArrayList<ArrayList<String>> showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country) {
-        ArrayList<ArrayList<String>> productsList = new ArrayList<>();
+    ArrayList<Product> showProducts(String productName, String sellerNick, float maxPrice, float minPrice, int minQuantity, String country) {
+        ArrayList<Product> productsList = new ArrayList<>();
         try {
             if (productName == null || productName.isBlank()) {
                 productName = "%";
@@ -169,19 +169,14 @@ public class DBConnection {
             titles.add("Country");
             titles.add("Quantity");
             titles.add("Price per unit");
-            productsList.add(titles);
+            //productsList.add(titles);
             while (rs.next()) {
                 String prodName = rs.getString(1);
                 String sellNick = rs.getString(2);
                 String cName = rs.getString(3);
                 int q = rs.getInt(4);
                 float cost = rs.getFloat(5);
-                ArrayList<String> productInfo = new ArrayList<>();
-                productInfo.add(prodName);
-                productInfo.add(sellNick);
-                productInfo.add(cName);
-                productInfo.add(String.valueOf(q));
-                productInfo.add(String.valueOf(cost));
+                Product productInfo = new Product(prodName,sellNick,cName,q,cost);
                 productsList.add(productInfo);
             }
         } catch (Exception e) {
@@ -191,16 +186,43 @@ public class DBConnection {
         return productsList;
     }
 
-    boolean addProductToOrder(String client_id, String seller_name, String product_name, String country, int quantity, float price) {
-//        try {
-//            PreparedStatement pstmt = con.prepareStatement
-//                    ("SELECT ");
-//            pstmt.setString(1, sellerNickname);
-//            pstmt.execute();
-//        } catch (Exception e) {
-//            System.out.println("Cos poszlo nie tak!");
-//            return false;
-//        }
+    boolean addProductsToOrder(ArrayList<Product> basket, int user_id) {
+        int order_id=-1;
+        try {
+            ArrayList<String> sellersName = new ArrayList<>();
+            for (Product productInfo: basket) {
+                if(!sellersName.contains(productInfo.seller)){
+                    sellersName.add(productInfo.seller);
+                    System.out.println("halo1");
+                    CallableStatement cstmt = con.prepareCall
+                            ("{CALL online_shop.addNewOrder(?,?,?)}");
+                    System.out.println("halo2");
+                    cstmt.setString(1,productInfo.seller);
+                    cstmt.setInt(2,user_id);
+                    cstmt.registerOutParameter(3, Types.INTEGER);
+                    System.out.println("halo123");
+                    System.out.println(productInfo.seller);
+                    System.out.println(user_id);
+                    cstmt.execute();
+                    System.out.println("halo3");
+                    order_id = cstmt.getInt(3);
+                    System.out.println("halo4");
+                }
+
+                PreparedStatement pstmt = con.prepareStatement
+                        ("CALL online_shop.addProductToOrder(?,?,?,?,?)");
+                pstmt.setInt(1,order_id);
+                pstmt.setString(2,productInfo.description);
+                pstmt.setString(3,productInfo.country);
+                pstmt.setInt(4,productInfo.quantity);
+                pstmt.setFloat(5,productInfo.pricePerUnit);
+                pstmt.executeQuery();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //System.out.println("Cos poszlo nie tak!");
+            return false;
+        }
         return true;
     }
 }
