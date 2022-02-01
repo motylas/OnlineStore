@@ -46,27 +46,7 @@ public class App {
         return values[1];
     }
 
-    private static void addProduct(){
-        System.out.print("PODAJ NAZWE: ");
-        String name = scanner.nextLine();
-        System.out.print("PODAJ KRAJ POCHODZENIA(PO ANG): ");
-        String country = scanner.nextLine();
-        System.out.print("PODAJ CENE ZA SZTUKE: ");
-        float price = 0;
-        try{
-            price = Float.parseFloat(scanner.nextLine());
-        } catch (Exception e){
-            System.out.println("wrong input!");
-            return;
-        }
-        System.out.print("PODAJ ILOSC NA MAGAZYNIE: ");
-        int quantity = 0;
-        try{
-            quantity = Integer.parseInt(scanner.nextLine());
-        } catch (Exception e){
-            System.out.println("wrong input");
-            return;
-        }
+    public static void addProduct(String name, String country, int quantity, float price){
         db.addProduct(user_id, name, country, quantity, price);
     }
 
