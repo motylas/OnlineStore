@@ -90,7 +90,7 @@ public class Window extends JFrame implements ActionListener {
     JLabel phoneL = new JLabel("Phone");
     JLabel emailL = new JLabel("Email");
     JLabel typeL = new JLabel("Type");
-    JLabel registerError = new JLabel("User with this username already exist.");
+    JLabel registerError = new JLabel("");
 
     JPanel usernameP = new JPanel();
     JPanel loginP = new JPanel();
@@ -107,7 +107,7 @@ public class Window extends JFrame implements ActionListener {
 
     JLabel loginLL = new JLabel("Login");
     JLabel passwordLL = new JLabel("Password");
-    JLabel loginError = new JLabel("User with this login doesn't exist.");
+    JLabel loginError = new JLabel("");
 
     JPanel loginPP = new JPanel();
     JPanel passwordPP = new JPanel();
@@ -132,7 +132,7 @@ public class Window extends JFrame implements ActionListener {
     JPasswordField passwordField2 = new JPasswordField();
 
     JButton addAdmin = new JButton("Create Admin");
-    JLabel createAdminError = new JLabel("Error");
+    JLabel createAdminError = new JLabel("");
 
     /**
      * Ban Screen
@@ -143,7 +143,7 @@ public class Window extends JFrame implements ActionListener {
     JLabel userToBan = new JLabel("Enter user nickname:");
     JTextField userToBanT = new JTextField();
     JButton banButton = new JButton("Ban User");
-    JLabel banError = new JLabel("Error");
+    JLabel banError = new JLabel("");
 
   /**
    * Show Products Screen
@@ -193,8 +193,6 @@ public class Window extends JFrame implements ActionListener {
 
 
   private void Prepare() {
-//    bottomPanel.setBackground(Color.GREEN);
-//    topPanel.setBackground(Color.RED);
         type.add("customer");
         type.add("seller");
 
@@ -473,7 +471,7 @@ public class Window extends JFrame implements ActionListener {
 
 
 
-    splitPane1.setBottomComponent(banScreen);
+    splitPane1.setBottomComponent(loginScreen);
     splitPane1.setTopComponent(StartScreen);
 
   }
@@ -500,12 +498,15 @@ public class Window extends JFrame implements ActionListener {
                 switch (typeOfUser) {
                   case "admin":
                     splitPane1.setTopComponent(AdminScreen);
+                    splitPane1.setBottomComponent(banScreen);
                     break;
                   case "seller":
                     splitPane1.setTopComponent(SellerScreen);
+                    splitPane1.setBottomComponent(addProductScreen);
                     break;
                   case "customer":
                     splitPane1.setTopComponent(CustomerScreen);
+//                    splitPane1.setBottomComponent(customerButton1);
                     break;
                 }
 
