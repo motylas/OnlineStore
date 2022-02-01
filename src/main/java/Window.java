@@ -630,16 +630,77 @@ public class Window extends JFrame implements ActionListener {
                     {
                         public void actionPerformed(ActionEvent event)
                         {
-                            description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
-                            seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
-                            country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
-                            AddProductWindow apw = new AddProductWindow();
+                            System.out.println("kiedys do usuniecia rzeczy");
+//                            description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
+//                            seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
+//                            country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
+//                            AddProductWindow apw = new AddProductWindow();
                             //App.addToBasket(new Product(description,seller,country,quantity,price));
 //                            JOptionPane.showMessageDialog(null,"Do you want to modify "
 //                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
                         }
                     }
             );
+        });
+
+        showProductsFilterButton.addActionListener(e->{
+            splitPane1.setBottomComponent(showProductsPA);
+            String pname = nameFilterText.getText();
+            String pseller = sellerifFilterText.getText();
+            String pcountry = countryFilterText.getText();
+            float pmax;
+            try{
+                pmax = Float.parseFloat(maxpriceFilterText.getText());
+            } catch(Exception x){
+                pmax = 0;
+            }
+            float pmin;
+            try{
+                pmin = Float.parseFloat(minpriceFilterText.getText());
+            } catch(Exception x){
+                pmin = 0;
+            }
+            int pqtty;
+            try{
+                pqtty = Integer.parseInt(quantityFilterText.getText());
+            } catch(Exception x){
+                pqtty = 0;
+            }
+            ArrayList<Product> listaProduktow = App.showProducts(pname, pseller, pmax, pmin, pqtty, pcountry);
+            String[] columns = {
+                    "Description", "Seller", "Country", "Quantity", "Price", "Add product"
+            };
+
+            Object[][] stringArray = new Object[listaProduktow.size()][6];
+            int i=0;
+            for (Product product : listaProduktow) {
+                stringArray[i][0]=product.description;
+                stringArray[i][1]=product.seller;
+                stringArray[i][2]=product.country;
+                stringArray[i][3]=String.valueOf(product.quantity);
+                stringArray[i][4]=String.valueOf(product.pricePerUnit);
+                i++;
+            }
+
+            JTable j = new JTable();
+            JScrollPane sp = new JScrollPane(j);
+
+            DefaultTableModel tableModel = new DefaultTableModel(stringArray, columns) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return column == 5;
+                }
+            };
+            j.setModel(tableModel);
+            j.getColumn("Add product").setCellRenderer(new ButtonRenderer());
+            j.getColumn("Add product").setCellEditor(new ButtonEditor(new JCheckBox()));
+            j.setBounds(30, 40, 200, 10);
+            showProductsPA.removeAll();
+            showProductsPA.add(showProductsFilter);
+            showProductsPA.add(sp);
+            for (ActionListener al:button.getActionListeners()) {
+                button.removeActionListener(al);
+            }
         });
       /**
        * Here
@@ -685,10 +746,10 @@ public class Window extends JFrame implements ActionListener {
               {
                 public void actionPerformed(ActionEvent event)
                 {
-                  description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
-                  seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
-                  country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
-                  AddProductWindow apw = new AddProductWindow();
+//                  description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
+//                  seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
+//                  country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
+//                  AddProductWindow apw = new AddProductWindow();
                   //App.addToBasket(new Product(description,seller,country,quantity,price));
 //                            JOptionPane.showMessageDialog(null,"Do you want to modify "
 //                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
@@ -741,10 +802,10 @@ public class Window extends JFrame implements ActionListener {
             {
               public void actionPerformed(ActionEvent event)
               {
-                description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
-                seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
-                country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
-                AddProductWindow apw = new AddProductWindow();
+//                description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
+//                seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
+//                country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
+//                AddProductWindow apw = new AddProductWindow();
                 //App.addToBasket(new Product(description,seller,country,quantity,price));
 //                            JOptionPane.showMessageDialog(null,"Do you want to modify "
 //                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
