@@ -43,6 +43,8 @@ public class Window extends JFrame implements ActionListener {
     JPanel showProductsPA = new JPanel();
     JPanel showUsersPA = new JPanel();
     JPanel showPersonalDataPA = new JPanel();
+    JPanel SellerScreen = new JPanel();
+    JPanel CustomerScreen = new JPanel();
 
 
     /**
@@ -55,6 +57,11 @@ public class Window extends JFrame implements ActionListener {
     JButton showUsers = new JButton("Show Users");
     JButton showPersonalData = new JButton("Show Personal data");
     JButton showProducts = new JButton("Show Products");
+    JButton sellerButton1 = new JButton("sB1");
+    JButton sellerButton2 = new JButton("sB2");
+    JButton customerButton1 = new JButton("cB1");
+    JButton customerButton2 = new JButton("cB2");
+
 
     /**
      * Register Screen
@@ -371,6 +378,27 @@ public class Window extends JFrame implements ActionListener {
     maxpriceFilterPanel.add(maxpriceFilterText);
     maxpriceFilterText.setMaximumSize(new Dimension(200,50));
 
+      /**
+       * Seller screen
+       */
+      SellerScreen.setLayout(new BoxLayout(SellerScreen, BoxLayout.Y_AXIS));
+
+      SellerScreen.add(sellerButton1);
+      SellerScreen.add(sellerButton2);
+      sellerButton1.setMaximumSize(new Dimension(200, 50));
+      sellerButton2.setMaximumSize(new Dimension(200, 50));
+
+      /**
+       * Customer screen
+       */
+      CustomerScreen.setLayout(new BoxLayout(CustomerScreen, BoxLayout.Y_AXIS));
+
+      CustomerScreen.add(customerButton1);
+      CustomerScreen.add(customerButton2);
+      customerButton1.setMaximumSize(new Dimension(200, 50));
+      customerButton2.setMaximumSize(new Dimension(200, 50));
+
+
 
 
     splitPane1.setBottomComponent(loginScreen);
@@ -396,8 +424,19 @@ public class Window extends JFrame implements ActionListener {
             String login = loginField1.getText();
             String pass = String.valueOf(passwordField1.getPassword());
             try {
-                App.login(login, pass);
-                splitPane1.setTopComponent(AdminScreen);
+                String typeOfUser = App.login(login, pass);
+                switch (typeOfUser) {
+                  case "admin":
+                    splitPane1.setTopComponent(AdminScreen);
+                    break;
+                  case "seller":
+                    splitPane1.setTopComponent(SellerScreen);
+                    break;
+                  case "customer":
+                    splitPane1.setTopComponent(CustomerScreen);
+                    break;
+                }
+
             } catch (Exception ex) {
                 loginError.setText("Wrong login or password");
             }
