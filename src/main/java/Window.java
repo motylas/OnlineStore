@@ -362,6 +362,8 @@ public class Window extends JFrame implements ActionListener {
          * Show Users PA Screen
          */
         showUsersPA.setLayout(new BoxLayout(showUsersPA, BoxLayout.Y_AXIS));
+        showProductsPA.setLayout(new BoxLayout(showProductsPA, BoxLayout.Y_AXIS));
+        showPersonalDataPA.setLayout(new BoxLayout(showPersonalDataPA, BoxLayout.Y_AXIS));
 
 
 
@@ -573,7 +575,7 @@ public class Window extends JFrame implements ActionListener {
         });
 
         showProducts.addActionListener(e -> {
-            splitPane1.setBottomComponent(showUsersPA);
+            splitPane1.setBottomComponent(showProductsPA);
             ArrayList<Product> listaProduktow = App.showProducts("", "", 0, 0, 0, "");
             String[] columns = {
                     "Description", "Seller", "Country", "Quantity", "Price", "Add product"
@@ -603,9 +605,9 @@ public class Window extends JFrame implements ActionListener {
             j.getColumn("Add product").setCellRenderer(new ButtonRenderer());
             j.getColumn("Add product").setCellEditor(new ButtonEditor(new JCheckBox()));
             j.setBounds(30, 40, 200, 10);
-            showUsersPA.removeAll();
-            showUsersPA.add(showProductsFilter);
-            showUsersPA.add(sp);
+            showProductsPA.removeAll();
+            showProductsPA.add(showProductsFilter);
+            showProductsPA.add(sp);
             for (ActionListener al:button.getActionListeners()) {
                 button.removeActionListener(al);
             }
@@ -625,13 +627,116 @@ public class Window extends JFrame implements ActionListener {
                     }
             );
         });
+      /**
+       * Here
+       */
+      showPersonalData.addActionListener(e -> {
+          splitPane1.setBottomComponent(showPersonalDataPA);
+          ArrayList<Product> listaProduktow = App.showProducts("", "", 0, 0, 0, "");
+          String[] columns = {
+              "Description", "Seller", "Country", "Quantity", "Price", "Add product"
+          };
 
-        showPersonalData.addActionListener(e -> {
+          Object[][] stringArray = new Object[listaProduktow.size()][6];
+          int i=0;
+          for (Product product : listaProduktow) {
+            stringArray[i][0]=product.description;
+            stringArray[i][1]=product.seller;
+            stringArray[i][2]=product.country;
+            stringArray[i][3]=String.valueOf(product.quantity);
+            stringArray[i][4]=String.valueOf(product.pricePerUnit);
+            i++;
+          }
+
+          JTable j = new JTable();
+          JScrollPane sp = new JScrollPane(j);
+
+          DefaultTableModel tableModel = new DefaultTableModel(stringArray, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+              return column == 5;
+            }
+          };
+          j.setModel(tableModel);
+          j.getColumn("Add product").setCellRenderer(new ButtonRenderer());
+          j.getColumn("Add product").setCellEditor(new ButtonEditor(new JCheckBox()));
+          j.setBounds(30, 40, 200, 10);
+          showPersonalDataPA.removeAll();
+          showPersonalDataPA.add(sp);
+          for (ActionListener al:button.getActionListeners()) {
+            button.removeActionListener(al);
+          }
+          button.addActionListener(
+              new ActionListener()
+              {
+                public void actionPerformed(ActionEvent event)
+                {
+                  description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
+                  seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
+                  country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
+                  AddProductWindow apw = new AddProductWindow();
+                  //App.addToBasket(new Product(description,seller,country,quantity,price));
+//                            JOptionPane.showMessageDialog(null,"Do you want to modify "
+//                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
+                }
+              }
+          );
             //App.addProductsToOrder();
         });
-
+      /**
+       * Here
+       */
       showUsers.addActionListener(e -> {
+        splitPane1.setBottomComponent(showUsersPA);
+        ArrayList<Product> listaProduktow = App.showProducts("", "", 0, 0, 0, "");
+        String[] columns = {
+            "Description", "Seller", "Country", "Quantity", "Price", "Add product"
+        };
 
+        Object[][] stringArray = new Object[listaProduktow.size()][6];
+        int i=0;
+        for (Product product : listaProduktow) {
+          stringArray[i][0]=product.description;
+          stringArray[i][1]=product.seller;
+          stringArray[i][2]=product.country;
+          stringArray[i][3]=String.valueOf(product.quantity);
+          stringArray[i][4]=String.valueOf(product.pricePerUnit);
+          i++;
+        }
+
+        JTable j = new JTable();
+        JScrollPane sp = new JScrollPane(j);
+
+        DefaultTableModel tableModel = new DefaultTableModel(stringArray, columns) {
+          @Override
+          public boolean isCellEditable(int row, int column) {
+            return column == 5;
+          }
+        };
+        j.setModel(tableModel);
+        j.getColumn("Add product").setCellRenderer(new ButtonRenderer());
+        j.getColumn("Add product").setCellEditor(new ButtonEditor(new JCheckBox()));
+        j.setBounds(30, 40, 200, 10);
+        showUsersPA.removeAll();
+        showUsersPA.add(sp);
+        for (ActionListener al:button.getActionListeners()) {
+          button.removeActionListener(al);
+        }
+        button.addActionListener(
+            new ActionListener()
+            {
+              public void actionPerformed(ActionEvent event)
+              {
+                description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
+                seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
+                country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
+                AddProductWindow apw = new AddProductWindow();
+                //App.addToBasket(new Product(description,seller,country,quantity,price));
+//                            JOptionPane.showMessageDialog(null,"Do you want to modify "
+//                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
+              }
+            }
+        );
       });
 
       addProductS.addActionListener(e -> {
