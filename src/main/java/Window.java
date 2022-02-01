@@ -126,6 +126,33 @@ public class Window extends JFrame implements ActionListener {
   JTextField userToBanT = new JTextField();
   JButton banButton = new JButton("Ban User");
 
+  /**
+   * Show Products Screen
+   */
+
+  JPanel showProductsFilter = new JPanel();
+  JPanel selleridFilterPanel = new JPanel();
+  JPanel nameFilterPanel = new JPanel();
+  JPanel countryFilterPanel = new JPanel();
+  JPanel quantityFilterPanel = new JPanel();
+  JPanel minpriceFilterPanel = new JPanel();
+  JPanel maxpriceFilterPanel = new JPanel();
+
+  JLabel sellerifFilterLabel = new JLabel("Seller Nickname");
+  JLabel nameFilterLabel = new JLabel("Product Name");
+  JLabel countryFilterLabel = new JLabel("Country");
+  JLabel quantityFilterLabel = new JLabel("Min. quantity");
+  JLabel minpriceFilterLabel = new JLabel("Min. Price");
+  JLabel maxpriceFilterLabel = new JLabel("Max. Price");
+
+  JTextField sellerifFilterText = new JTextField();
+  JTextField nameFilterText = new JTextField();
+  JTextField countryFilterText = new JTextField();
+  JTextField quantityFilterText = new JTextField();
+  JTextField minpriceFilterText = new JTextField();
+  JTextField maxpriceFilterText = new JTextField();
+
+
 
 
   private void Prepare() {
@@ -296,8 +323,58 @@ public class Window extends JFrame implements ActionListener {
      */
     showUsersPA.setLayout(new BoxLayout(showUsersPA, BoxLayout.Y_AXIS));
 
+
+
+    /**
+     * Show Products Screen
+     */
+    showProductsFilter.setLayout(new BoxLayout(showProductsFilter, BoxLayout.X_AXIS));
+    showProductsFilter.add(selleridFilterPanel);
+    showProductsFilter.add(nameFilterPanel);
+    showProductsFilter.add(countryFilterPanel);
+    showProductsFilter.add(quantityFilterPanel);
+    showProductsFilter.add(minpriceFilterPanel);
+    showProductsFilter.add(maxpriceFilterPanel);
+
+
+    selleridFilterPanel.setLayout(new BoxLayout(selleridFilterPanel, BoxLayout.Y_AXIS));
+    nameFilterPanel.setLayout(new BoxLayout(nameFilterPanel, BoxLayout.Y_AXIS));
+    countryFilterPanel.setLayout(new BoxLayout(countryFilterPanel, BoxLayout.Y_AXIS));
+    quantityFilterPanel.setLayout(new BoxLayout(quantityFilterPanel, BoxLayout.Y_AXIS));
+    minpriceFilterPanel.setLayout(new BoxLayout(minpriceFilterPanel, BoxLayout.Y_AXIS));
+    maxpriceFilterPanel.setLayout(new BoxLayout(maxpriceFilterPanel, BoxLayout.Y_AXIS));
+
+    selleridFilterPanel.add(sellerifFilterLabel);
+    sellerifFilterLabel.setMaximumSize(new Dimension(200,30));
+    selleridFilterPanel.add(sellerifFilterText);
+    sellerifFilterText.setMaximumSize(new Dimension(200,50));
+    nameFilterPanel.add(nameFilterLabel);
+    nameFilterLabel.setMaximumSize(new Dimension(200,30));
+    nameFilterPanel.add(nameFilterText);
+    nameFilterText.setMaximumSize(new Dimension(200,50));
+    countryFilterPanel.add(countryFilterLabel);
+    countryFilterLabel.setMaximumSize(new Dimension(200,30));
+    countryFilterPanel.add(countryFilterText);
+    countryFilterText.setMaximumSize(new Dimension(200,50));
+    quantityFilterPanel.add(quantityFilterLabel);
+    quantityFilterLabel.setMaximumSize(new Dimension(200,30));
+    quantityFilterPanel.add(quantityFilterText);
+    quantityFilterText.setMaximumSize(new Dimension(200,50));
+    minpriceFilterPanel.add(minpriceFilterLabel);
+    minpriceFilterLabel.setMaximumSize(new Dimension(200,30));
+    minpriceFilterPanel.add(minpriceFilterText);
+    minpriceFilterText.setMaximumSize(new Dimension(200,50));
+    maxpriceFilterPanel.add(maxpriceFilterLabel);
+    maxpriceFilterLabel.setMaximumSize(new Dimension(200,30));
+    maxpriceFilterPanel.add(maxpriceFilterText);
+    maxpriceFilterText.setMaximumSize(new Dimension(200,50));
+
+
+
     splitPane1.setBottomComponent(loginScreen);
     splitPane1.setTopComponent(StartScreen);
+
+
 
   }
 
@@ -356,6 +433,7 @@ public class Window extends JFrame implements ActionListener {
 
     showProducts.addActionListener(e ->{
       splitPane1.setBottomComponent(showUsersPA);
+      showUsersPA.setLayout(new BoxLayout(showUsersPA, BoxLayout.Y_AXIS));
       ArrayList<ArrayList<String>> listaProduktow = App.showProducts("","",0,0,0,"");
       ArrayList<String> columnNames = listaProduktow.remove(0);
 
@@ -378,6 +456,7 @@ public class Window extends JFrame implements ActionListener {
      j.setModel(tableModel);
      j.setBounds(30, 40, 200, 10);
      showUsersPA.removeAll();
+     showUsersPA.add(showProductsFilter);
      showUsersPA.add(sp);
      });
   }
