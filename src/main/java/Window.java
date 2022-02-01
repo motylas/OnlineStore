@@ -13,8 +13,10 @@ import javax.swing.table.TableCellRenderer;
 public class Window extends JFrame implements ActionListener {
 
     private int screenIndex = 0;
-    // JBUTTON DO KLAS POTRZEBNY MOZE WYWALIMY ZMIENIMY JAK NIE BEDZIE SMIGAC
-    JButton button = new JButton();
+    static JButton button = new JButton();
+    static String description;
+    static String seller;
+    static String country;
 
 
     /**
@@ -581,12 +583,11 @@ public class Window extends JFrame implements ActionListener {
                     {
                         public void actionPerformed(ActionEvent event)
                         {
-                            String description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
-                            String seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
-                            String country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
-                            int quantity = Integer.parseInt(String.valueOf(j.getValueAt(j.getEditingRow(),3)));
-                            float price = Float.parseFloat(String.valueOf(j.getValueAt(j.getEditingRow(),4)));
-                            App.addToBasket(new Product(description,seller,country,quantity,price));
+                            description = String.valueOf(j.getValueAt(j.getEditingRow(),0));
+                            seller = String.valueOf(j.getValueAt(j.getEditingRow(),1));
+                            country = String.valueOf(j.getValueAt(j.getEditingRow(),2));
+                            AddProductWindow apw = new AddProductWindow();
+                            //App.addToBasket(new Product(description,seller,country,quantity,price));
 //                            JOptionPane.showMessageDialog(null,"Do you want to modify "
 //                                    + j.getValueAt(j.getEditingRow(),1) +" line?");
                         }
@@ -595,7 +596,7 @@ public class Window extends JFrame implements ActionListener {
         });
 
         showPersonalData.addActionListener(e -> {
-            App.addProductsToOrder();
+            //App.addProductsToOrder();
         });
 
       showUsers.addActionListener(e -> {
@@ -605,6 +606,10 @@ public class Window extends JFrame implements ActionListener {
       addProductS.addActionListener(e -> {
         splitPane1.setBottomComponent(addProductScreen);
       });
+    }
+
+    public static void addProductToBasket(int quantity, float price){
+        App.addToBasket(new Product(description,seller,country,quantity,price));
     }
 
     public static void main(String[] var0) {
